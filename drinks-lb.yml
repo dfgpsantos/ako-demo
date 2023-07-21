@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: coffee-lb
+  labels:
+    app: coffee
+  namespace: drinks
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: coffee
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tea-lb
+  labels:
+    app: tea
+  namespace: drinks
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: tea

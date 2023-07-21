@@ -1,0 +1,24 @@
+apiVersion: ako.vmware.com/v1alpha1
+kind: HostRule
+metadata:
+  name: coffee-host-rule
+  namespace: drinks
+spec:
+  virtualhost:
+    fqdn: coffee.avi.corp.local
+    enableVirtualHost: true
+    tls: # optional
+      sslKeyCertificate:
+        name: System-Default-Cert-EC
+        type: ref
+      sslProfile: System-Standard-PFS
+      termination: edge
+#    httpPolicy:
+#      policySets:
+#      overwrite: true
+    datascripts:
+    - remove-headers
+#    wafPolicy: ako-waf-policy
+#    applicationProfile: HTTP-Secure
+    analyticsProfile: log-insight
+    errorPageProfile: ako-error-page

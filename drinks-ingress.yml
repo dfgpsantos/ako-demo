@@ -1,0 +1,49 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: coffee-ingress
+  namespace: drinks
+#  annotations:
+#    ako.vmware.com/enable-tls: "true"
+spec:
+  ingressClassName: avi-lb
+  tls:
+    - hosts:
+        - "coffee.avi.corp.local"
+      secretName: coffee-secret
+  rules:
+    - host: "coffee.avi.corp.local"
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: coffee-nd
+              port:
+                number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tea-ingress
+  namespace: drinks
+  annotations:
+    ako.vmware.com/enable-tls: "true"
+spec:
+  ingressClassName: avi-lb
+#  tls:
+#    - hosts:
+#        - "tea.avi.corp.local"
+#      secretName: tea-secret
+  rules:
+    - host: "tea.avi.corp.local"
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: tea-nd
+              port:
+                number: 80

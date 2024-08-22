@@ -1,0 +1,34 @@
+apiVersion: crd.antrea.io/v1alpha1
+kind: NetworkPolicy
+metadata:
+  name: drinks-np
+  namespace: drinks
+spec:
+    priority: 5
+    tier: application
+    appliedTo:
+      - podSelector:
+          matchLabels:
+            role: coffee
+    ingress:
+      - action: Allow
+        from:
+          - podSelector:
+              matchLabels:
+                role: tea
+        ports:
+          - protocol: TCP
+            port: 8080
+            endPort: 8080
+        name: AllowFromTea
+        enableLogging: true
+    egress:
+      - action: Drop
+        to:
+          - ipBlock:
+              cidr: 0.0.0.0/24
+        ports:
+          - protocol: TCP
+            port: 443
+        name: DropToThirdParty
+        enableLogging: true
